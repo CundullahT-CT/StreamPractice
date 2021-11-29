@@ -1,2 +1,6 @@
-package com.example.streampractice.service;public class JobService {
+package com.example.streampractice.service;
+
+import com.example.streampractice.entity.Job;
+
+public interface JobService extends CrudService<Job, String> {
 }

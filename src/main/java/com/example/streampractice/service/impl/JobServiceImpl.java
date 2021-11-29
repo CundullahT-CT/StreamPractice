@@ -1,4 +1,4 @@
-package com.example.streampractice.service.implementation;
+package com.example.streampractice.service.impl;
 
 import com.example.streampractice.entity.Job;
 import com.example.streampractice.service.JobService;
