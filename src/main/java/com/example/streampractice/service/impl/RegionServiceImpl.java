@@ -1,6 +1,6 @@
 package com.example.streampractice.service.impl;
 
-import com.example.streampractice.entity.Region;
+import com.example.streampractice.dto.Region;
 import com.example.streampractice.service.RegionService;
 import org.springframework.stereotype.Service;
 

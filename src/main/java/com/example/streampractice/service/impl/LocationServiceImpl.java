@@ -1,6 +1,6 @@
 package com.example.streampractice.service.impl;
 
-import com.example.streampractice.entity.Location;
+import com.example.streampractice.dto.Location;
 import com.example.streampractice.service.LocationService;
 import org.springframework.stereotype.Service;
 

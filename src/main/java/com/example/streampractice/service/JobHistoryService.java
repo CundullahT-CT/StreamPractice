@@ -1,6 +1,6 @@
 package com.example.streampractice.service;
 
-import com.example.streampractice.entity.JobHistory;
+import com.example.streampractice.dto.JobHistory;
 
 import java.util.List;
 

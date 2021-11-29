@@ -1,6 +1,6 @@
 package com.example.streampractice.service.impl;
 
-import com.example.streampractice.entity.Country;
+import com.example.streampractice.dto.Country;
 import com.example.streampractice.service.CountryService;
 import org.springframework.stereotype.Service;
 

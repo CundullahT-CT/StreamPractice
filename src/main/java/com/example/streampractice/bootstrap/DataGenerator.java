@@ -1,6 +1,6 @@
 package com.example.streampractice.bootstrap;
 
-import com.example.streampractice.entity.*;
+import com.example.streampractice.dto.*;
 import com.example.streampractice.service.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.example.streampractice.entity;
+package com.example.streampractice.dto;
 
 import lombok.*;
 
