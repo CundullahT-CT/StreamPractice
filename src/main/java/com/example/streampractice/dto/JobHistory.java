@@ -8,14 +8,18 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Builder
 public class JobHistory {
 
-    private Long employeeId;
+    private Employee employee;
     private LocalDate startDate;
     private LocalDate endDate;
-    private String jobId;
-    private Long departmentId;
+    private Job job;
+    private Department department;
+
+    @Override
+    public String toString() {
+        return "{" + employee.getId() + ", " + startDate.toString() + ", " + endDate.toString() + ", " + job.getJobTitle() + ", " + department.getDepartmentName() + "}";
+    }
 
 }

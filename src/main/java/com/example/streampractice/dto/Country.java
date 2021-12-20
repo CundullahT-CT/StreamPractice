@@ -6,12 +6,16 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Builder
 public class Country {
 
     private String id;
     private String countryName;
-    private Long regionId;
+    private Region region;
+
+    @Override
+    public String toString() {
+        return "{" + id + ", " + countryName + ", " + region.getRegionName() + "}";
+    }
 
 }

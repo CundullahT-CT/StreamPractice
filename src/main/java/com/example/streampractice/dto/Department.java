@@ -6,13 +6,17 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Builder
 public class Department {
 
     private Long id;
     private String departmentName;
-    private Long managerId;
-    private Long locationId;
+    private Employee manager;
+    private Location location;
+
+    @Override
+    public String toString() {
+        return "{" + id + ", " + departmentName + ", " + manager.getId() + ", " + location.getId() + "}";
+    }
 
 }

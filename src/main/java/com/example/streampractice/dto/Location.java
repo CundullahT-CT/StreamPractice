@@ -6,7 +6,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Builder
 public class Location {
 
@@ -15,6 +14,11 @@ public class Location {
     private String postalCode;
     private String city;
     private String stateProvince;
-    private String countryId;
+    private Country country;
+
+    @Override
+    public String toString() {
+        return "{" + id + ", " + streetAddress + ", " + postalCode + ", " + city + ", " + stateProvince + ", " + country.getCountryName() + "}";
+    }
 
 }

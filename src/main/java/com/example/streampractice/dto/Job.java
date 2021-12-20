@@ -6,7 +6,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Builder
 public class Job {
 
@@ -14,5 +13,10 @@ public class Job {
     private String jobTitle;
     private Long minSalary;
     private Long maxSalary;
+
+    @Override
+    public String toString() {
+        return "{" + id + ", " + jobTitle + ", " + minSalary + ", " + maxSalary + "}";
+    }
 
 }

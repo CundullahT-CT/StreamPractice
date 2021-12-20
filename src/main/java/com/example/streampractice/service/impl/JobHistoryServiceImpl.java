@@ -27,12 +27,12 @@ public class JobHistoryServiceImpl implements JobHistoryService {
     @Override
     public void update(JobHistory object) {
         for (JobHistory jobHistory : list) {
-            if (jobHistory.getEmployeeId().equals(object.getEmployeeId()) && jobHistory.getJobId().equals(object.getJobId())) {
-                jobHistory.setEmployeeId(object.getEmployeeId());
+            if (jobHistory.getEmployee().getId().equals(object.getEmployee().getId()) && jobHistory.getJob().getId().equals(object.getJob().getId())) {
+                jobHistory.setEmployee(object.getEmployee());
                 jobHistory.setStartDate(object.getStartDate());
                 jobHistory.setEndDate(object.getEndDate());
-                jobHistory.setJobId(object.getJobId());
-                jobHistory.setDepartmentId(object.getDepartmentId());
+                jobHistory.setJob(object.getJob());
+                jobHistory.setDepartment(object.getDepartment());
             }
         }
     }
@@ -44,7 +44,7 @@ public class JobHistoryServiceImpl implements JobHistoryService {
 
     @Override
     public List<JobHistory> readByEmployeeId(Long id) {
-        return list.stream().filter(jobHistory -> jobHistory.getEmployeeId().equals(id)).collect(Collectors.toList());
+        return list.stream().filter(jobHistory -> jobHistory.getEmployee().getId().equals(id)).collect(Collectors.toList());
     }
 
     @Override
@@ -54,7 +54,7 @@ public class JobHistoryServiceImpl implements JobHistoryService {
 
     @Override
     public void deleteByEmployeeId(Long id) {
-        list.removeIf(jobHistory -> jobHistory.getEmployeeId().equals(id));
+        list.removeIf(jobHistory -> jobHistory.getEmployee().getId().equals(id));
     }
 
 }
