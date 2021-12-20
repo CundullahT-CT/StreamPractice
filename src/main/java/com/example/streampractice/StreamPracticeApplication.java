@@ -61,7 +61,6 @@ public class StreamPracticeApplication {
         System.out.println("///// READ ALL REGIONS /////");
         System.out.println(regionService.readAll());
 
-        //ABC
     }
 
 }
