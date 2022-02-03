@@ -1,5 +1,6 @@
 package com.example.streampractice.practice;
 
+import com.example.streampractice.dto.Department;
 import com.example.streampractice.dto.Employee;
 import com.example.streampractice.dto.JobHistory;
 import com.example.streampractice.service.*;
@@ -45,6 +46,20 @@ public class Practice {
         return employeeService.readAll().stream().map(Employee::getFirstName).collect(Collectors.toList());
     }
 
+    // Display if there is any employee with salary less than 1000. If there is none, the method should return true
+    public static boolean checkIfThereIsNoSalaryLessThan1000() {
+//         return employeeService.readAll().stream().anyMatch(employee -> employee.getSalary() < 1000);
+        return employeeService.readAll().stream().allMatch(employee -> employee.getSalary() > 1000);
+    }
+
+    // Check if the salaries of all the employees in IT department are greater than 2000 (departmentName: IT)
+    public static boolean checkIfThereIsAnySalaryGreaterThan2000InITDepartment() {
+//        return employeeService.readAll().stream().filter(employee -> employee.getSalary() > 2000)
+//                .map(Employee::getDepartment).anyMatch(department -> department.getDepartmentName().equals("IT"));
+        return employeeService.readAll().stream().filter(employee -> employee.getDepartment().getDepartmentName().equals("IT"))
+                .anyMatch(employee -> employee.getSalary() > 2000);
+    }
+
     // Display all the employees whose salary is less than 5000
     public static List<Employee> getAllEmployeesWithLessSalaryThan5000() {
         return employeeService.readAll().stream().filter(employee -> employee.getSalary() < 5000).collect(Collectors.toList());
@@ -66,9 +81,16 @@ public class Practice {
     // Display the maximum salary an employee gets
     public static Long getMaxSalary() throws Exception {
         return employeeService.readAll().stream()
-                              .map(Employee::getSalary)
-                              .reduce((a, b) -> a > b ? a : b)
-                              .orElseThrow(() -> new Exception("Employee couldn't be found."));
+                .max(Comparator.comparing(Employee::getSalary))
+                .orElseThrow(() -> new Exception("Something went wrong")).getSalary();
+
+//        return employeeService.readAll().stream().sorted(Comparator.comparing(Employee::getSalary).reversed())
+//                .findFirst().orElseThrow(() -> new Exception("Something went wrong")).getSalary();
+
+//        return employeeService.readAll().stream()
+//                              .map(Employee::getSalary)
+//                              .reduce((a, b) -> a > b ? a : b)
+//                              .orElseThrow(() -> new Exception("Employee couldn't be found."));
     }
 
     // Display the employee(s) who gets the maximum salary
