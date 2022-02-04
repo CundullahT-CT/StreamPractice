@@ -1,12 +1,13 @@
 package com.example.streampractice.practice;
 
-import com.example.streampractice.dto.Employee;
-import com.example.streampractice.dto.JobHistory;
+import com.example.streampractice.dto.*;
 import com.example.streampractice.service.*;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
@@ -40,9 +41,77 @@ public class Practice {
         return employeeService.readAll();
     }
 
-    // Display all the employees' first name
+    // Display all the countries
+    public static List<Country> getAllCountries() {
+        return countryService.readAll();
+    }
+
+    // Display all the departments
+    public static List<Department> getAllDepartments() {
+        return departmentService.readAll();
+    }
+
+    // Display all the jobs
+    public static List<Job> getAllJobs() {
+        return jobService.readAll();
+    }
+
+    // Display all the locations
+    public static List<Location> getAllLocations() {
+        return locationService.readAll();
+    }
+
+    // Display all the regions
+    public static List<Region> getAllRegions() {
+        return regionService.readAll();
+    }
+
+    // Display all the job histories
+    public static List<JobHistory> getAllJobHistories() {
+        return jobHistoryService.readAll();
+    }
+
+    // Display all the employees' first names
     public static List<String> getAllEmployeesFirstName() {
         return employeeService.readAll().stream().map(Employee::getFirstName).collect(Collectors.toList());
+    }
+
+    // Display all the countries' names
+    public static List<String> getAllCountryNames() {
+        return countryService.readAll().stream().map(Country::getCountryName).collect(Collectors.toList());
+    }
+
+    // Display all the departments' managers' first names
+    public static List<String> getAllDepartmentManagerFirstNames() {
+        return departmentService.readAll().stream().map(Department::getManager).map(Employee::getFirstName).collect(Collectors.toList());
+    }
+
+    // Display all the departments where manager name of the department is 'Steven'
+    public static List<Department> getAllDepartmentsWhichManagerFirstNameIsSteven() {
+        return departmentService.readAll().stream()
+                .filter(department -> department.getManager().getFirstName().equals("Steven")).collect(Collectors.toList());
+    }
+
+    // Display all the departments where postal code of the location of the department is '98199'
+    public static List<Department> getAllDepartmentsWhereLocationPostalCodeIs98199() {
+        return departmentService.readAll().stream()
+                .filter(department -> department.getLocation().getPostalCode().equals("98199"))
+                .collect(Collectors.toList());
+    }
+
+    // Display the region of the IT department
+    public static Region getRegionOfITDepartment() throws Exception {
+        return departmentService.readAll().stream()
+                .map(Department::getLocation)
+                .map(Location::getCountry)
+                .map(Country::getRegion).findFirst().orElseThrow(() -> new Exception("Not Found!!"));
+    }
+
+    // Display all the departments where the region of department is 'Europe'
+    public static List<Department> getAllDepartmentsWhereRegionOfCountryIsEurope() {
+        return departmentService.readAll().stream()
+                .filter(department -> department.getLocation().getCountry().getRegion().getRegionName().equals("Europe"))
+                .collect(Collectors.toList());
     }
 
     // Display if there is any employee with salary less than 1000. If there is none, the method should return true
@@ -103,6 +172,22 @@ public class Practice {
                                   }
                                   return false;
                               }).collect(Collectors.toList());
+    }
+
+    // Display the max salary employee's job
+    public static Job getMaxSalaryEmployeeJob() throws Exception {
+        return employeeService.readAll().stream()
+                .max(Comparator.comparing(Employee::getSalary))
+                .orElseThrow(() -> new Exception("Something went wrong")).getJob();
+    }
+
+    // Display the max salary in Americas Region
+    public static Long getMaxSalaryInAmericasRegion() throws Exception {
+        return employeeService.readAll().stream()
+                .filter(employee -> employee.getDepartment().getLocation().getCountry().getRegion().getRegionName().equals("Americas"))
+                .max(Comparator.comparing(Employee::getSalary))
+                .orElseThrow(() -> new Exception("No Employee Found!"))
+                .getSalary();
     }
 
     // Display the second maximum salary an employee gets
@@ -200,10 +285,26 @@ public class Practice {
                               .collect(Collectors.toList());
     }
 
+    // Display all the employees separated based on their department id number
+    public static Map<Long, List<Employee>> getAllEmployeesForEachDepartment() {
+        return employeeService.readAll().stream()
+                .collect(Collectors.groupingBy(employee -> employee.getDepartment().getId()));
+    }
+
     // Display the total number of the departments
     public static Long getTotalDepartmentsNumber() {
         //return departmentService.readAll().stream().count();  // With stream
         return (long) departmentService.readAll().size();       // Without stream
+    }
+
+    // Display the employee whose first name is 'Alyssa' and manager's first name is 'Eleni' and department name is 'Sales'
+    public static Employee getEmployeeWhoseFirstNameIsAlyssaAndManagersFirstNameIsEleniAndDepartmentNameIsSales() throws Exception {
+        return employeeService.readAll().stream()
+                .filter(employee -> employee.getFirstName().equals("Alyssa"))
+                .filter(employee -> employee.getManager().getFirstName().equals("Eleni"))
+                .filter(employee -> employee.getDepartment().getDepartmentName().equals("Sales"))
+                .findFirst().orElseThrow(() -> new Exception("No Employee Found!"));
+        // Solution with &&
     }
 
     // Display all the job histories in ascending order by start date
@@ -218,6 +319,30 @@ public class Practice {
                                 .collect(Collectors.toList());
     }
 
+    // Display all the job histories where the start date is after 01.01.2005
+    public static List<JobHistory> getAllJobHistoriesStartDateAfterFirstDayOfJanuary2005() {
+        return jobHistoryService.readAll().stream()
+                .filter(jobHistory -> jobHistory.getStartDate().isAfter(LocalDate.of(2005, 1, 1)))
+                .collect(Collectors.toList());
+    }
+
+    // Display all the job histories where the end date is 31.12.2007 and the job title of job is 'Programmer'
+    public static List<JobHistory> getAllJobHistoriesEndDateIsLastDayOfDecember2007AndJobTitleIsProgrammer() {
+        return jobHistoryService.readAll().stream()
+                .filter(jobHistory -> jobHistory.getEndDate().isEqual((LocalDate.of(2007, 12, 31))))
+                .filter(jobHistory -> jobHistory.getJob().getJobTitle().equals("Programmer")).collect(Collectors.toList());
+    }
+
+    // Display the employee whose job history start date is 01.01.2007 and job history end date is 31.12.2007 and department's name is 'Shipping'
+    public static Employee getEmployeeOfJobHistoryWhoseStartDateIsFirstDayOfJanuary2007AndEndDateIsLastDayOfDecember2007AndDepartmentNameIsShipping() throws Exception {
+        return jobHistoryService.readAll().stream()
+                .filter(jobHistory -> jobHistory.getStartDate().isEqual(LocalDate.of(2007, 1, 1)))
+                .filter(jobHistory -> jobHistory.getEndDate().isEqual(LocalDate.of(2007, 12, 31)))
+                .filter(jobHistory -> jobHistory.getDepartment().getDepartmentName().equals("Shipping"))
+                .map(JobHistory::getEmployee)
+                .findAny().orElseThrow(() -> new Exception("No Employee Found!"));
+    }
+
     // Display all the employees whose first name starts with 'A'
     public static List<Employee> getAllEmployeesFirstNameStartsWithA() {
         return employeeService.readAll().stream().filter(employee -> employee.getFirstName().startsWith("A")).collect(Collectors.toList());
@@ -226,6 +351,14 @@ public class Practice {
     // Display all the employees whose job id contains 'IT'
     public static List<Employee> getAllEmployeesJobIdContainsIT() {
         return employeeService.readAll().stream().filter(employee -> employee.getJob().getId().contains("IT")).collect(Collectors.toList());
+    }
+
+    // Display the number of employees whose job title is programmer and department name is 'IT'
+    public static Long getNumberOfEmployeesWhoseJobTitleIsProgrammerAndDepartmentNameIsIT() {
+        return employeeService.readAll().stream()
+                .filter(employee -> employee.getJob().getJobTitle().equals("Programmer"))
+                .filter(employee -> employee.getDepartment().getDepartmentName().equals("IT"))
+                .count();
     }
 
     // Display all the employees whose department id is 50, 80, or 100
