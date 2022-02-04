@@ -1,6 +1,5 @@
 package com.example.streampractice.practice;
 
-import com.example.streampractice.dto.Department;
 import com.example.streampractice.dto.Employee;
 import com.example.streampractice.dto.JobHistory;
 import com.example.streampractice.service.*;
